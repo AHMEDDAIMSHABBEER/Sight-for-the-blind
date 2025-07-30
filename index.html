@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Project - Object Detection</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>AI Object Detection</h1>
+        <h3>Made by Ahmed Daim </h3>
+    </header>
+
+    <button onclick="captureImage()">Capture Image</button>
+    <p id="message"></p>
+    <img id="detected-image" src="" alt="Detected Objects">
+    
+    <audio id="audio" controls></audio>
+
+    <script>
+        function captureImage() {
+            document.getElementById("message").innerText = "Processing...";
+            fetch("/capture", { method: "POST" })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("message").innerText = data.message;
+                    document.getElementById("detected-image").src = data.image_url;
+                    document.getElementById("audio").src = data.audio_url;
+                })
+                .catch(error => {
+                    document.getElementById("message").innerText = "Error capturing image.";
+                });
+        }
+    </script>
+</body>
+</html>
